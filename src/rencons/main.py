@@ -2,7 +2,7 @@ import sys
 
 from typer import Typer
 
-from rencons.cli import app_group, naks_group, welder_registry_group
+from rencons.cli import app_group, naks_group, templater_group, welder_registry_group
 
 
 def entrypoint():
@@ -10,6 +10,7 @@ def entrypoint():
     cli.add_typer(app_group)
     cli.add_typer(naks_group, name="naks")
     cli.add_typer(welder_registry_group, name="welder-regitry")
+    cli.add_typer(templater_group, name="templater")
 
     if len(sys.argv) == 1:
         sys.argv.append('--help')

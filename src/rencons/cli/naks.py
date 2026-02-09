@@ -18,7 +18,7 @@ overwrite_output_file_prompt = """
 """
 
 
-@naks_group.command("parse-kleymos")
+@naks_group.command("parse-kleymos", no_args_is_help=True)
 def parse_kleymos(
     input_path: Annotated[Path, Option(help="path to json file with kleymos")],
     output_path: Annotated[Path, Option()],
