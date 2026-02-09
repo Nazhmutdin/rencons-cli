@@ -1,6 +1,6 @@
 # rencons-cli
 
-CLI ещщд for:
+CLI tool for:
 
 - Parsing welder attestation/certificate data by `kleymo` (stamp code) via the Telegram bot `@statnaksbot`
 - Appending parsed data into an Excel “welder registry” workbook (`.xlsx`)
