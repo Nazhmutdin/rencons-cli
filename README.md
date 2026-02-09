@@ -99,7 +99,11 @@ Note: the command name is `welder-regitry` (typo preserved in CLI).
 
 ### `templater generate-welder-naks-attestation-docs`
 
-Generates `.docx` files into per-welder subfolders inside a directory containing `data.json`.
+Generates `.docx` files into per-welder subfolders inside a directory containing `data.json`:
+
+- NAKS attestation requests
+- Experience certificates
+- NAKS agreements
 
 Example directory in this repo:
 
@@ -118,6 +122,8 @@ Templates:
 - Required:
   - `static/templates/personal-naks-request-template.docx`
   - `static/templates/experience-cert-template.docx`
+- Required for agreements:
+  - `static/templates/{ac} welder naks agreement.docx` (the `{ac}` comes from `data.json`)
 - Optional (used for attestation types `П1`/`П2` when present):
   - `static/templates/renewal-personal-naks-request-template.docx`
 
@@ -125,6 +131,7 @@ Templates:
 
 ```json
 {
+  "ac": "СЗР-15АЦ",
   "requestDate": "DD.MM.YYYY",
   "templates": [
     {
@@ -159,6 +166,11 @@ Templates:
   ]
 }
 ```
+
+Notes:
+
+- Each `request` is merged with its referenced `template` (by `template_id`), so a request can override template fields.
+- Output is written to `--dir/{passNumber} {name}/` for each person.
 
 ## Development
 
