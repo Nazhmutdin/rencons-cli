@@ -1,0 +1,82 @@
+[project]
+name = "rencons-cli"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Nazhmutdin",email = "gumuevnazhmutdin1248@gmail.com"}
+]
+requires-python = ">=3.13"
+dependencies = [
+    "typer (>=0.21.1,<0.22.0)",
+    "httpx (>=0.28.1,<0.29.0)",
+    "telethon (>=1.42.0,<2.0.0)",
+    "lxml (>=6.0.2,<7.0.0)",
+    "rich (>=14.3.2,<15.0.0)",
+    "openpyxl (>=3.1.5,<4.0.0)",
+    "python-dotenv (>=1.2.1,<2.0.0)",
+    "dishka (>=1.7.2,<2.0.0)"
+]
+
+
+[tool.poetry]
+packages = [{ include = "rencons", from = "src" }]
+
+
+[tool.poetry.scripts]
+rencons-cli = "rencons.main:entrypoint"
+
+
+[tool.ruff]
+line-length = 88
+target-version = "py313"
+
+exclude = [
+    ".git",
+    "__pycache__",
+    ".mypy_cache",
+    ".ruff_cache",
+    ".venv",
+    "venv",
+    "migrations"
+]
+
+fix = true
+unsafe-fixes = true
+
+[tool.ruff.lint]
+select = ["E", "F", "B", "I"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+force-single-line = false
+
+
+# ====================================================================
+
+
+[tool.pyright]
+pythonVersion = "3.13"
+
+include = ["."]
+exclude = [
+    "venv",
+    "**/migrations/**",
+    "__pycache__"
+]
+
+typeCheckingMode = "standard"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+pythonpath = "./src"
+env_files = "./.test.env"
+filterwarnings = "ignore::DeprecationWarning"

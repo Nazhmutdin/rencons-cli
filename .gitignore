@@ -1,0 +1,10 @@
+*.session
+
+*.env
+
+dist
+venv
+.git
+
+__pycache__
+static/*

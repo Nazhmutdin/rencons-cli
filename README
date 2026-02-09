@@ -1,0 +1,107 @@
+# rencons-cli
+
+CLI ещщд for:
+
+- Parsing welder attestation/certificate data by `kleymo` (stamp code) via the Telegram bot `@statnaksbot`
+- Appending parsed data into an Excel “welder registry” workbook (`.xlsx`)
+
+The CLI entrypoint is `rencons-cli` (Typer).
+
+## Requirements
+
+- Python `>= 3.13` (see `pyproject.toml`)
+- A Telegram API app (`API_ID`, `API_HASH`) for Telethon
+
+## Install
+
+Using Poetry:
+
+```bash
+poetry install
+poetry run rencons-cli --help
+```
+
+Or install the package into your environment:
+
+```bash
+poetry install --only main
+```
+
+## Configuration
+
+Create a `.env` file in the repo root:
+
+```env
+API_ID=123456
+API_HASH=0123456789abcdef0123456789abcdef
+```
+
+Notes:
+
+- Keep `API_ID`/`API_HASH` private. The repo already ignores `*.env`.
+- Telethon will store a local session file (default: `session.session`, ignored by git via `*.session`).
+
+## Commands
+
+### Health check
+
+```bash
+rencons-cli status
+```
+
+### Parse NAKS certs by kleymo
+
+Input: JSON file containing a list of kleymos (strings).
+
+`kleymos.json` example:
+
+```json
+["A123", "B567"]
+```
+
+Run:
+
+```bash
+rencons-cli naks parse-kleymos --input-path kleymos.json --output-path certs.json
+```
+
+Output: `certs.json` is a JSON list of objects with these fields:
+
+- `kleymo`, `name`, `company`, `cert_number`, `exp_date`
+- `gtds`, `method`, `materials`
+- `thikness`, `outer_diameter`, `detail_diameter`, `rod_diameter`
+- `detail_type`, `joint_type`
+
+First run may require Telegram login in the terminal (Telethon).
+
+### Add parsed data into the Excel welder registry
+
+Takes the JSON produced by `parse-kleymos` and appends rows into an `.xlsx` registry.
+
+```bash
+rencons-cli welder-regitry add-data \
+  --data-path certs.json \
+  --group "Baltics" \
+  --group-key "Baltics 11" \
+  --sub-group "-" \
+  --registry-path static/welder-registry.xlsx
+```
+
+By default, `--registry-path` is `static/welder-registry.xlsx`.
+
+To save to a new file instead of overwriting:
+
+```bash
+rencons-cli welder-regitry add-data \
+  --data-path certs.json \
+  --group "Baltics" \
+  --group-key "Baltics 11" \
+  --save-path out.xlsx
+```
+
+## Development
+
+```bash
+poetry run ruff check .
+poetry run ruff format .
+```
